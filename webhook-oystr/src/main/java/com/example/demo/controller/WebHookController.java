@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +17,14 @@ public class WebHookController {
 
 	@Autowired
 	private WebHookService webHookService;
-	
-	@PostMapping(value="/webhook", consumes={"application/json"})
-	public ResponseEntity<Boolean> postPayLoad(@RequestBody WebHookDTO webHookDTO) throws Exception{
 		
-		webHookService.createWebHook(webHookDTO.toWebHook(webHookDTO));
+	@PostMapping("/webhook")
+	public ResponseEntity<String> postPayLoad(@Valid @RequestBody WebHookDTO webHookDTO) throws Exception{
 		
-		return null;
+		String[] msg = webHookService.createWebHook(webHookDTO.toWebHook(webHookDTO));
+		
+		if(msg[1]=="true") return new ResponseEntity<>(msg[0],HttpStatus.OK);
+		return new ResponseEntity<>(msg[0],HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
 }

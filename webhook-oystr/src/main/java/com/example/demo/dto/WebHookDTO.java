@@ -1,7 +1,6 @@
 package com.example.demo.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
 
@@ -30,6 +29,38 @@ public class WebHookDTO {
 	public WebHookDTO toWebHook(WebHookDTO webHookDTO) {
 		
 		return new WebHookDTO(webHookDTO.evt,webHookDTO.execution,webHookDTO.owner,webHookDTO.bot);
+	}
+
+	public String getEvt() {
+		return evt;
+	}
+
+	public void setEvt(String evt) {
+		this.evt = evt;
+	}
+
+	public String getExecution() {
+		return execution;
+	}
+
+	public void setExecution(String execution) {
+		this.execution = execution;
+	}
+
+	public int getOwner() {
+		return owner;
+	}
+
+	public void setOwner(int owner) {
+		this.owner = owner;
+	}
+
+	public String getBot() {
+		return bot;
+	}
+
+	public void setBot(String bot) {
+		this.bot = bot;
 	}
 	
 }
