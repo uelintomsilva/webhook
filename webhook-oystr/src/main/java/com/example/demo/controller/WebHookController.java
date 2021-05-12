@@ -24,7 +24,7 @@ public class WebHookController {
 		String[] msg = webHookService.createWebHook(webHookDTO.toWebHook(webHookDTO));
 		
 		if(msg[1]=="true") return new ResponseEntity<>(msg[0],HttpStatus.OK);
-		return new ResponseEntity<>(msg[0],HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(msg[0],HttpStatus.SERVICE_UNAVAILABLE);
 		
 	}
 }
