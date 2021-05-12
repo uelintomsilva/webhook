@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,12 +16,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class WebHookServiceImpl implements WebHookService{
 
 	private static final String HookUrl = "https://webhook.site/f74c3a57-a016-43f8-ace8-3c91fa26b4b4";
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public String[] createWebHook(WebHookDTO webHookDTO) throws Exception{
 		
         String userWebhookUrl = String.format(HookUrl);
         StringBuilder stringBuilder = new StringBuilder();
+        
         
         RestTemplate restTemplate = new RestTemplate();
 
@@ -40,13 +44,16 @@ public class WebHookServiceImpl implements WebHookService{
         	stringBuilder.append("] \na execução ");
         	stringBuilder.append(webHookDTO.getExecution());
         	stringBuilder.append(" terminou com sucesso.");
+        	logger.info(stringBuilder.toString());
         	return new String[] {stringBuilder.toString(),"true"};
+        	
         }catch(Exception e){
         	stringBuilder.append("[ExecutionFinishedWithError - ");
         	stringBuilder.append(webHookDTO.getBot());
         	stringBuilder.append("] \na execução ");
         	stringBuilder.append(webHookDTO.getExecution());
         	stringBuilder.append(" terminou com erros.");
+        	logger.error(stringBuilder.toString());
         	return new String[] {stringBuilder.toString(),"false"};
         }
 		
